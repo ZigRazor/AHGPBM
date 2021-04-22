@@ -1,6 +1,10 @@
 # AHGPBM
 Advanced Handling for Google Protocol Buffers Message in C++
 
+[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/ZigRazor/AHGPBM.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ZigRazor/AHGPBM/context:cpp)
+
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/ZigRazor/AHGPBM.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ZigRazor/AHGPBM/alerts/)
+
 
 
 ### Pre-Build Operations
