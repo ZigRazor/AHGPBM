@@ -1,4 +1,5 @@
 #include "dispatcher/Dispatcher.h"
+#include <future>
 
 Dispatcher::Dispatcher(){
 
@@ -13,7 +14,7 @@ void Dispatcher::injectMessage(google::protobuf::Message* msg){
         std::list<Handler*> &handlerList = handlerMap.at(msg->GetDescriptor()->name());
         std::list<Handler*>::const_iterator it;
         for(it = handlerList.begin(); it != handlerList.end() ; ++it){
-            (*it)->run();
+            auto asynch = std::async(std::launch::async, &Handler::run, &(*(*it)),msg);
         }
     }
 }

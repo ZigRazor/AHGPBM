@@ -5,7 +5,7 @@
 
 class Handler{
     public:
-    virtual void run() = 0;
+    virtual int run(google::protobuf::Message* msg) = 0;
 };
 
 #endif // __HANDLER_H__
