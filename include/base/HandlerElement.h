@@ -3,10 +3,13 @@
 
 #include "google/protobuf/message.h"
 
-class HandlerElement{
+namespace AHGPBM
+{
+    class HandlerElement
+    {
     public:
-    virtual void injectMessage(google::protobuf::Message* msg) = 0;
-};
-
+        virtual void injectMessage(google::protobuf::Message *msg) = 0;
+    };
+}
 
 #endif // __HANDLERELEMENT_H__

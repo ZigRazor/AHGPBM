@@ -3,9 +3,14 @@
 
 #include "google/protobuf/message.h"
 
-class Handler{
+namespace AHGPBM
+{
+    class Handler
+    {
     public:
-    virtual int run(google::protobuf::Message* msg) = 0;
-};
+        virtual int run(google::protobuf::Message *msg) = 0;
+    };
+
+}
 
 #endif // __HANDLER_H__

@@ -5,19 +5,21 @@
 #include "base/HandlerElement.h"
 #include <list>
 
-
-class Receiver{
+namespace AHGPBM
+{
+    class Receiver
+    {
     public:
-    Receiver();
-    ~Receiver();
-    void receiveMessage(google::protobuf::Message* msg);
+        Receiver();
+        ~Receiver();
+        void receiveMessage(google::protobuf::Message *msg);
 
-    void addHandler(HandlerElement* handler);
-    void deleteHandler(HandlerElement* handler);
+        void addHandler(HandlerElement *handler);
+        void deleteHandler(HandlerElement *handler);
 
     private:
-    std::list<HandlerElement*> handlerList;
-};
-
+        std::list<HandlerElement *> handlerList;
+    };
+}
 
 #endif // __RECEIVER_H__
