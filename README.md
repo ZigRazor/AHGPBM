@@ -1,5 +1,8 @@
 # AHGPBM
-Advanced Handling for Google Protocol Buffers Message in C++
+<a href="https://www.w3schools.com/cpp/" target="_blank"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" alt="cplusplus" width="40" height="40"/> </a> Advanced Handling for Google Protocol Buffers Message in C++ 
+
+[![CodeFactor](https://www.codefactor.io/repository/github/zigrazor/ahgpbm/badge)](https://www.codefactor.io/repository/github/zigrazor/ahgpbm)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/09b1ecbbca5945609716d468923cf503)](https://www.codacy.com/gh/ZigRazor/AHGPBM/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ZigRazor/AHGPBM&amp;utm_campaign=Badge_Grade)
 
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/ZigRazor/AHGPBM.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ZigRazor/AHGPBM/context:cpp)
 
