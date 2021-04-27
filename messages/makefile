@@ -26,4 +26,4 @@ create_out_dir:
 	$(CXX) $(CXX_FLAGS) -fPIC -c -I./cpp -o .obj/$@ cpp/$<
 
 $(LIB): $(PROTO_OBJS)
-	$(CXX) $(LD_FLAGS) -fPIC -shared -pedantic -Wall -Wextra -o $@ .obj/$<
+	$(CXX) $(LD_FLAGS) -shared -pedantic -Wall -Wextra -o $@ $(wildcard ./.obj/proto/*.pb.o) -lprotobuf

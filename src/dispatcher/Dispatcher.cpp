@@ -25,6 +25,24 @@ namespace AHGPBM
         }
     }
 
+    void Dispatcher::injectMessage(google::protobuf::Message *msg, void **result)
+    {
+        if (handlerMap.find(msg->GetDescriptor()->name()) != handlerMap.end())
+        {
+            std::list<Handler *> &handlerList = handlerMap.at(msg->GetDescriptor()->name());
+            std::list<Handler *>::const_iterator it;
+            for (it = handlerList.begin(); it != handlerList.end(); ++it)
+            {
+                auto asynch = std::async(std::launch::async, &Handler::run, &(*(*it)), msg);
+                *result = asynch.get();
+            }
+        }
+        else
+        {
+            *result = nullptr;
+        }
+    }
+
     void Dispatcher::addHandler(std::string messageName, Handler *handler)
     {
         handlerMap[messageName].push_back(handler);

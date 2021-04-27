@@ -24,6 +24,23 @@ namespace AHGPBM
         }
     }
 
+    void Router::injectMessage(google::protobuf::Message *msg, void **result)
+    {
+        if (routingMap.find(msg->GetDescriptor()->name()) != routingMap.end())
+        {
+            std::list<HandlerElement *> &handlerList = routingMap.at(msg->GetDescriptor()->name());
+            std::list<HandlerElement *>::const_iterator it;
+            for (it = handlerList.begin(); it != handlerList.end(); ++it)
+            {
+                (*it)->injectMessage(msg, result);
+            }
+        }
+        else
+        {
+            *result = nullptr;
+        }
+    }
+
     void Router::addRoutingElement(std::string messageName, HandlerElement *routingElement)
     {
         routingMap[messageName].push_back(routingElement);

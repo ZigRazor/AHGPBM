@@ -14,6 +14,7 @@ namespace AHGPBM
         Dispatcher();
         ~Dispatcher();
         void injectMessage(google::protobuf::Message *msg);
+        void injectMessage(google::protobuf::Message *msg, void **result);
         void addHandler(std::string messageName, Handler *handler);
         void deleteHandler(std::string messageName, Handler *handler);
         void deleteHandlerMessage(std::string messageName);

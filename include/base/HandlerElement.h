@@ -9,6 +9,7 @@ namespace AHGPBM
     {
     public:
         virtual void injectMessage(google::protobuf::Message *msg) = 0;
+        virtual void injectMessage(google::protobuf::Message *msg, void **result) = 0;
     };
 }
 

@@ -20,6 +20,23 @@ namespace AHGPBM
         }
     }
 
+    void Receiver::receiveMessage(google::protobuf::Message *msg, void **result)
+    {
+        std::list<HandlerElement *>::const_iterator it;
+        if (!handlerList.empty())
+        {
+
+            for (it = handlerList.begin(); it != handlerList.end(); ++it)
+            {
+                (*it)->injectMessage(msg, result);
+            }
+        }
+        else
+        {
+            *result = nullptr;
+        }
+    }
+
     void Receiver::addHandler(HandlerElement *handler)
     {
         handlerList.push_back(handler);
@@ -38,5 +55,4 @@ namespace AHGPBM
             }
         }
     }
-
 }

@@ -8,7 +8,7 @@ namespace AHGPBM
     class Handler
     {
     public:
-        virtual int run(google::protobuf::Message *msg) = 0;
+        virtual void *run(google::protobuf::Message *msg) = 0;
     };
 
 }

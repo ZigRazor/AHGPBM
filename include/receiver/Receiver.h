@@ -13,6 +13,7 @@ namespace AHGPBM
         Receiver();
         ~Receiver();
         void receiveMessage(google::protobuf::Message *msg);
+        void receiveMessage(google::protobuf::Message *msg, void **result);
 
         void addHandler(HandlerElement *handler);
         void deleteHandler(HandlerElement *handler);

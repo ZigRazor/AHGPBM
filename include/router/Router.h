@@ -14,6 +14,7 @@ namespace AHGPBM
         Router();
         ~Router();
         void injectMessage(google::protobuf::Message *msg);
+        void injectMessage(google::protobuf::Message *msg, void **result);
         void addRoutingElement(std::string messageName, HandlerElement *routingElement);
         void deleteRoutingElement(std::string messageName, HandlerElement *routingElement);
         void deleteRoutingMessage(std::string messageName);

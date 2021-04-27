@@ -10,6 +10,10 @@ set(SOURCE
     src/dispatcher/Dispatcher.cpp
     )
 
+find_package(Protobuf REQUIRED)
+include_directories(${Protobuf_INCLUDE_DIRS})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
 
 ADD_CUSTOM_TARGET(
     libMessage.so ALL
@@ -39,7 +43,10 @@ add_executable(ahgpbm_test
 target_include_directories(ahgpbm_test PUBLIC include)
 target_include_directories(ahgpbm_test PUBLIC messages/cpp)
 target_link_directories(ahgpbm_test PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/messages)
-target_link_libraries(ahgpbm_test Message.so gtest gtest_main pthread)
+target_link_libraries(ahgpbm_test gtest gtest_main pthread AHGPBM)
+target_link_libraries(ahgpbm_test ${Protobuf_LIBRARIES})
+target_link_libraries(ahgpbm_test Message.so)
+ADD_DEPENDENCIES(ahgpbm_test AHGPBM)
 ADD_DEPENDENCIES(ahgpbm_test libMessage.so)
 
 
