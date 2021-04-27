@@ -24,10 +24,13 @@ add_custom_target(libMessage /usr/bin/make -f "${CMAKE_CURRENT_SOURCE_DIR}/messa
 
 add_library(AHGPBM SHARED ${SOURCE})
 
-ADD_DEPENDENCIES(${PROJECT_NAME} libMessage.so)
+
 target_include_directories(AHGPBM PUBLIC include)
 target_link_directories(AHGPBM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/messages)
 target_link_libraries(AHGPBM Message.so)
+
+#ADD_DEPENDENCIES(${PROJECT_NAME} libMessage.so)
+ADD_DEPENDENCIES(AHGPBM libMessage.so)
 
 add_executable(ahgpbm_test 
                     test/main.cpp 
@@ -37,6 +40,7 @@ target_include_directories(ahgpbm_test PUBLIC include)
 target_include_directories(ahgpbm_test PUBLIC messages/cpp)
 target_link_directories(ahgpbm_test PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/messages)
 target_link_libraries(ahgpbm_test Message.so gtest gtest_main pthread)
+ADD_DEPENDENCIES(ahgpbm_test libMessage.so)
 
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
