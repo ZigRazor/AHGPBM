@@ -30,3 +30,13 @@ Advanced Handling for Google Protocol Buffers Message in C++
  8. makecheck 
  9. sudo make install
  10. sudo ldconfig
+   
+#### Install Google Test
+
+1. git clone https://github.com/google/googletest.git -b release-1.10.0
+2. cd googletest        # Main directory of the cloned repository.
+3. mkdir build          # Create a directory to hold the build output.
+4. cd build
+5. cmake ..     or     cmake .. -DBUILD_GMOCK=OFF
+6. make
+7. sudo make install    # Install in /usr/local/ by default        # Generate native build scripts for GoogleTest.

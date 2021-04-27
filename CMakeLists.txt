@@ -29,6 +29,16 @@ target_include_directories(AHGPBM PUBLIC include)
 target_link_directories(AHGPBM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/messages)
 target_link_libraries(AHGPBM Message.so)
 
+add_executable(ahgpbm_test 
+                    test/main.cpp 
+                    test/test1.cpp
+              )
+target_include_directories(ahgpbm_test PUBLIC include)
+target_include_directories(ahgpbm_test PUBLIC messages/cpp)
+target_link_directories(ahgpbm_test PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/messages)
+target_link_libraries(ahgpbm_test Message.so gtest gtest_main pthread)
+
+
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
