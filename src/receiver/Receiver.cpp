@@ -46,13 +46,11 @@ namespace AHGPBM
     HandlerElement *Receiver::deleteHandler(HandlerElement *handler, const std::string &messageName)
     {
         std::list<HandlerElement *>::const_iterator it;
-        bool erased = false;
-        for (it = handlerList.begin(); !erased && it != handlerList.end(); ++it)
+        for (it = handlerList.begin(); it != handlerList.end(); ++it)
         {
             if (*it == handler)
             {
-                handlerList.erase(it);
-                erased = true;
+                handlerList.erase(it);                
                 return handler;
             }
         }

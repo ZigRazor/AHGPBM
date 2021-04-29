@@ -62,14 +62,12 @@ namespace AHGPBM
             if (routingMap.find(messageName) != routingMap.end())
             {
                 std::list<HandlerElement *> &handlerList = routingMap.at(messageName);
-                std::list<HandlerElement *>::const_iterator handlerListIt;
-                bool erased = false;
-                for (handlerListIt = handlerList.begin(); !erased && handlerListIt != handlerList.end(); ++handlerListIt)
+                std::list<HandlerElement *>::const_iterator handlerListIt;                
+                for (handlerListIt = handlerList.begin(); handlerListIt != handlerList.end(); ++handlerListIt)
                 {
                     if (*handlerListIt == handler)
                     {
-                        handlerList.erase(handlerListIt);
-                        erased = true;
+                        handlerList.erase(handlerListIt);                        
                         return handler;
                     }
                 }
