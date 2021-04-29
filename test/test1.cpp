@@ -1,26 +1,15 @@
-
-#include "gtest/gtest.h"
-#include "receiver/Receiver.h"
-#include "dispatcher/Dispatcher.h"
-#include "handler/Handler.h"
-#include "proto/example.pb.h"
-#include <iostream>
-#include "handlerImpl.h"
+#include "define_test_utilities.h"
 
 
 
 TEST(AHGPBM, test_recv_disp_1)
 {
-    AHGPBM::Receiver receiver;
-    AHGPBM::Dispatcher dispatcher;
-    handler1 hand;
+    init_variable;
 
-    SearchRequest1 msg;
-
-    dispatcher.addHandler(&hand, msg.GetDescriptor()->name());
-    receiver.addHandler(&dispatcher);
+    dispatcher1.addHandler(&hand1, msg1.GetDescriptor()->name());
+    receiver1.addHandler(&dispatcher1);
     int *result;
-    receiver.receiveMessage(&msg, (void **)&result);
+    receiver1.receiveMessage(&msg1, (void **)&result);
 
     if (result)
     {
@@ -35,26 +24,21 @@ TEST(AHGPBM, test_recv_disp_1)
 
 TEST(AHGPBM, test_recv_disp_2)
 {
-    AHGPBM::Receiver receiver;
-    AHGPBM::Dispatcher dispatcher;
+    init_variable;
 
-    SearchRequest1 msg;
-
-    receiver.addHandler(&dispatcher);
+    receiver1.addHandler(&dispatcher1);
     int *result;
-    receiver.receiveMessage(&msg, (void **)&result);
+    receiver1.receiveMessage(&msg1, (void **)&result);
 
     ASSERT_EQ(result, nullptr);
 }
 
 TEST(AHGPBM, test_recv_disp_3)
 {
-    AHGPBM::Receiver receiver;
-
-    SearchRequest1 msg;
+    init_variable;
 
     int *result;
-    receiver.receiveMessage(&msg, (void **)&result);
+    receiver1.receiveMessage(&msg1, (void **)&result);
 
     ASSERT_EQ(result, nullptr);
 }

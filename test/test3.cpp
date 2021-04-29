@@ -1,30 +1,16 @@
-#include "gtest/gtest.h"
-#include "receiver/Receiver.h"
-#include "dispatcher/Dispatcher.h"
-#include "handler/Handler.h"
-#include "router/Router.h"
-#include "proto/example.pb.h"
-#include <iostream>
-#include "handlerImpl.h"
+#include "define_test_utilities.h"
 
 TEST(AHGPBM, test_recv_route_mult_disp_1)
 {
-    AHGPBM::Receiver receiver;
-    AHGPBM::Router router;
-    AHGPBM::Dispatcher dispatcher1;
-    AHGPBM::Dispatcher dispatcher2;
-    handler1 hand1;
-    handler2 hand2;
+    init_variable;
 
-    SearchRequest1 msg;
+    dispatcher1.addHandler(&hand1, msg1.GetDescriptor()->name());
+    dispatcher2.addHandler(&hand2, msg1.GetDescriptor()->name());
+    router1.addHandler(&dispatcher1, msg1.GetDescriptor()->name());
+    router1.addHandler(&dispatcher2, msg1.GetDescriptor()->name());
+    receiver1.addHandler(&router1);
 
-    dispatcher1.addHandler(&hand1, msg.GetDescriptor()->name());
-    dispatcher2.addHandler(&hand2, msg.GetDescriptor()->name());
-    router.addHandler(&dispatcher1, msg.GetDescriptor()->name());
-    router.addHandler(&dispatcher2, msg.GetDescriptor()->name());
-    receiver.addHandler(&router);
-
-    receiver.receiveMessage(&msg);
+    receiver1.receiveMessage(&msg1);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
 
@@ -34,21 +20,14 @@ TEST(AHGPBM, test_recv_route_mult_disp_1)
 
 TEST(AHGPBM, test_recv_route_mult_disp_2)
 {
-    AHGPBM::Receiver receiver;
-    AHGPBM::Router router;
-    AHGPBM::Dispatcher dispatcher1;
-    AHGPBM::Dispatcher dispatcher2;
-    handler1 hand1;
-    handler2 hand2;
+    init_variable;
 
-    SearchRequest1 msg;
+    dispatcher1.addHandler(&hand1, msg1.GetDescriptor()->name());
+    router1.addHandler(&dispatcher1, msg1.GetDescriptor()->name());
+    router1.addHandler(&dispatcher2, msg1.GetDescriptor()->name());
+    receiver1.addHandler(&router1);
 
-    dispatcher1.addHandler(&hand1, msg.GetDescriptor()->name());
-    router.addHandler(&dispatcher1, msg.GetDescriptor()->name());
-    router.addHandler(&dispatcher2, msg.GetDescriptor()->name());
-    receiver.addHandler(&router);
-
-    receiver.receiveMessage(&msg);
+    receiver1.receiveMessage(&msg1);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
 
@@ -58,22 +37,15 @@ TEST(AHGPBM, test_recv_route_mult_disp_2)
 
 TEST(AHGPBM, test_recv_route_mult_disp_3)
 {
-    AHGPBM::Receiver receiver;
-    AHGPBM::Router router;
-    AHGPBM::Dispatcher dispatcher1;
-    AHGPBM::Dispatcher dispatcher2;
-    handler1 hand1;
-    handler2 hand2;
+    init_variable;
 
-    SearchRequest1 msg;
+    dispatcher1.addHandler(&hand1, msg1.GetDescriptor()->name());
+    dispatcher2.addHandler(&hand2, msg1.GetDescriptor()->name());
 
-    dispatcher1.addHandler(&hand1, msg.GetDescriptor()->name());
-    dispatcher2.addHandler(&hand2, msg.GetDescriptor()->name());
+    router1.addHandler(&dispatcher2, msg1.GetDescriptor()->name());
+    receiver1.addHandler(&router1);
 
-    router.addHandler(&dispatcher2, msg.GetDescriptor()->name());
-    receiver.addHandler(&router);
-
-    receiver.receiveMessage(&msg);
+    receiver1.receiveMessage(&msg1);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
 
@@ -83,21 +55,14 @@ TEST(AHGPBM, test_recv_route_mult_disp_3)
 
 TEST(AHGPBM, test_recv_route_mult_disp_4)
 {
-    AHGPBM::Receiver receiver;
-    AHGPBM::Router router;
-    AHGPBM::Dispatcher dispatcher1;
-    AHGPBM::Dispatcher dispatcher2;
-    handler1 hand1;
-    handler2 hand2;
+    init_variable;
 
-    SearchRequest1 msg;
+    dispatcher1.addHandler(&hand1, msg1.GetDescriptor()->name());
+    dispatcher2.addHandler(&hand2, msg1.GetDescriptor()->name());
+    router1.addHandler(&dispatcher1, msg1.GetDescriptor()->name());
+    router1.addHandler(&dispatcher2, msg1.GetDescriptor()->name());
 
-    dispatcher1.addHandler(&hand1, msg.GetDescriptor()->name());
-    dispatcher2.addHandler(&hand2, msg.GetDescriptor()->name());
-    router.addHandler(&dispatcher1, msg.GetDescriptor()->name());
-    router.addHandler(&dispatcher2, msg.GetDescriptor()->name());
-
-    receiver.receiveMessage(&msg);
+    receiver1.receiveMessage(&msg1);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
 
@@ -107,21 +72,14 @@ TEST(AHGPBM, test_recv_route_mult_disp_4)
 
 TEST(AHGPBM, test_recv_route_mult_disp_5)
 {
-    AHGPBM::Receiver receiver;
-    AHGPBM::Router router;
-    AHGPBM::Dispatcher dispatcher1;
-    AHGPBM::Dispatcher dispatcher2;
-    handler1 hand1;
-    handler2 hand2;
+    init_variable;
 
-    SearchRequest1 msg;
+    dispatcher1.addHandler(&hand1, msg1.GetDescriptor()->name());
+    dispatcher2.addHandler(&hand2, msg1.GetDescriptor()->name());
 
-    dispatcher1.addHandler(&hand1, msg.GetDescriptor()->name());
-    dispatcher2.addHandler(&hand2, msg.GetDescriptor()->name());
+    receiver1.addHandler(&router1);
 
-    receiver.addHandler(&router);
-
-    receiver.receiveMessage(&msg);
+    receiver1.receiveMessage(&msg1);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
 
@@ -131,20 +89,13 @@ TEST(AHGPBM, test_recv_route_mult_disp_5)
 
 TEST(AHGPBM, test_recv_route_mult_disp_6)
 {
-    AHGPBM::Receiver receiver;
-    AHGPBM::Router router;
-    AHGPBM::Dispatcher dispatcher1;
-    AHGPBM::Dispatcher dispatcher2;
-    handler1 hand1;
-    handler2 hand2;
+    init_variable;
 
-    SearchRequest1 msg;
+    router1.addHandler(&dispatcher1, msg1.GetDescriptor()->name());
+    router1.addHandler(&dispatcher2, msg1.GetDescriptor()->name());
+    receiver1.addHandler(&router1);
 
-    router.addHandler(&dispatcher1, msg.GetDescriptor()->name());
-    router.addHandler(&dispatcher2, msg.GetDescriptor()->name());
-    receiver.addHandler(&router);
-
-    receiver.receiveMessage(&msg);
+    receiver1.receiveMessage(&msg1);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
 

@@ -1,27 +1,14 @@
-#include "gtest/gtest.h"
-#include "receiver/Receiver.h"
-#include "dispatcher/Dispatcher.h"
-#include "handler/Handler.h"
-#include "router/Router.h"
-#include "proto/example.pb.h"
-#include <iostream>
-#include "handlerImpl.h"
-
+#include "define_test_utilities.h"
 
 TEST(AHGPBM, test_recv_route_disp_1)
 {
-    AHGPBM::Receiver receiver;
-    AHGPBM::Router router;
-    AHGPBM::Dispatcher dispatcher;
-    handler1 hand;
+    init_variable;
 
-    SearchRequest1 msg;
-
-    dispatcher.addHandler(&hand, msg.GetDescriptor()->name());
-    router.addHandler(&dispatcher, msg.GetDescriptor()->name());
-    receiver.addHandler(&router);
+    dispatcher1.addHandler(&hand1, msg1.GetDescriptor()->name());
+    router1.addHandler(&dispatcher1, msg1.GetDescriptor()->name());
+    receiver1.addHandler(&router1);
     int *result;
-    receiver.receiveMessage(&msg, (void **)&result);
+    receiver1.receiveMessage(&msg1, (void **)&result);
 
     if (result)
     {
@@ -36,52 +23,37 @@ TEST(AHGPBM, test_recv_route_disp_1)
 
 TEST(AHGPBM, test_recv_route_disp_2)
 {
-    AHGPBM::Receiver receiver;
-    AHGPBM::Router router;
-    AHGPBM::Dispatcher dispatcher;
-    handler1 hand;
+    init_variable;
 
-    SearchRequest1 msg;
-
-    dispatcher.addHandler(&hand, msg.GetDescriptor()->name());
-    receiver.addHandler(&router);
+    dispatcher1.addHandler(&hand1, msg1.GetDescriptor()->name());
+    receiver1.addHandler(&router1);
     int *result;
-    receiver.receiveMessage(&msg, (void **)&result);
+    receiver1.receiveMessage(&msg1, (void **)&result);
 
     ASSERT_EQ(result, nullptr);
 }
 
 TEST(AHGPBM, test_recv_route_disp_3)
 {
-    AHGPBM::Receiver receiver;
-    AHGPBM::Router router;
-    AHGPBM::Dispatcher dispatcher;
-    handler1 hand;
+    init_variable;
 
-    SearchRequest1 msg;
-
-    router.addHandler(&dispatcher, msg.GetDescriptor()->name());
-    receiver.addHandler(&router);
+    router1.addHandler(&dispatcher1, msg1.GetDescriptor()->name());
+    receiver1.addHandler(&router1);
     int *result;
-    receiver.receiveMessage(&msg, (void **)&result);
+    receiver1.receiveMessage(&msg1, (void **)&result);
 
     ASSERT_EQ(result, nullptr);
 }
 
 TEST(AHGPBM, test_recv_route_disp_4)
 {
-    AHGPBM::Receiver receiver;
-    AHGPBM::Router router;
-    AHGPBM::Dispatcher dispatcher;
-    handler1 hand;
+    init_variable;
 
-    SearchRequest1 msg;
-
-    dispatcher.addHandler(&hand, msg.GetDescriptor()->name());
-    router.addHandler(&dispatcher, msg.GetDescriptor()->name());
+    dispatcher1.addHandler(&hand1, msg1.GetDescriptor()->name());
+    router1.addHandler(&dispatcher1, msg1.GetDescriptor()->name());
 
     int *result;
-    receiver.receiveMessage(&msg, (void **)&result);
+    receiver1.receiveMessage(&msg1, (void **)&result);
 
     ASSERT_EQ(result, nullptr);
 }
