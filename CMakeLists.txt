@@ -39,6 +39,7 @@ ADD_DEPENDENCIES(AHGPBM libMessage.so)
 add_executable(ahgpbm_test 
                     test/main.cpp 
                     test/test1.cpp
+                    test/test2.cpp
               )
 target_include_directories(ahgpbm_test PUBLIC include)
 target_include_directories(ahgpbm_test PUBLIC messages/cpp)

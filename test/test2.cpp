@@ -1,8 +1,8 @@
-
 #include "gtest/gtest.h"
 #include "receiver/Receiver.h"
 #include "dispatcher/Dispatcher.h"
 #include "base/Handler.h"
+#include "router/Router.h"
 #include "proto/example.pb.h"
 #include <iostream>
 
@@ -28,16 +28,19 @@ private:
     int result;
 };
 
-TEST(AHGPBM, test_recv_disp_1)
+
+TEST(AHGPBM, test_recv_route_disp_1)
 {
     AHGPBM::Receiver receiver;
+    AHGPBM::Router router;
     AHGPBM::Dispatcher dispatcher;
     handler1 hand;
 
     SearchRequest1 msg;
 
     dispatcher.addHandler(msg.GetDescriptor()->name(), &hand);
-    receiver.addHandler(&dispatcher);
+    router.addRoutingElement(msg.GetDescriptor()->name(), &dispatcher);
+    receiver.addHandler(&router);
     int *result;
     receiver.receiveMessage(&msg, (void **)&result);
 
@@ -49,14 +52,17 @@ TEST(AHGPBM, test_recv_disp_1)
     }
 }
 
-TEST(AHGPBM, test_recv_disp_2)
+TEST(AHGPBM, test_recv_route_disp_2)
 {
     AHGPBM::Receiver receiver;
+    AHGPBM::Router router;
     AHGPBM::Dispatcher dispatcher;
-    
+    handler1 hand;
+
     SearchRequest1 msg;
-    
-    receiver.addHandler(&dispatcher);
+
+    dispatcher.addHandler(msg.GetDescriptor()->name(), &hand);    
+    receiver.addHandler(&router);
     int *result;
     receiver.receiveMessage(&msg, (void **)&result);
 
@@ -64,12 +70,36 @@ TEST(AHGPBM, test_recv_disp_2)
     ASSERT_EQ(result, nullptr);
 }
 
-TEST(AHGPBM, test_recv_disp_3)
+TEST(AHGPBM, test_recv_route_disp_3)
 {
     AHGPBM::Receiver receiver;
+    AHGPBM::Router router;
+    AHGPBM::Dispatcher dispatcher;
+    handler1 hand;
+
+    SearchRequest1 msg;
+    
+    router.addRoutingElement(msg.GetDescriptor()->name(), &dispatcher); 
+    receiver.addHandler(&router);
+    int *result;
+    receiver.receiveMessage(&msg, (void **)&result);
+
+    
+    ASSERT_EQ(result, nullptr);
+}
+
+TEST(AHGPBM, test_recv_route_disp_4)
+{
+    AHGPBM::Receiver receiver;
+    AHGPBM::Router router;
+    AHGPBM::Dispatcher dispatcher;
+    handler1 hand;
 
     SearchRequest1 msg;
 
+    dispatcher.addHandler(msg.GetDescriptor()->name(), &hand);    
+    router.addRoutingElement(msg.GetDescriptor()->name(), &dispatcher); 
+    
     int *result;
     receiver.receiveMessage(&msg, (void **)&result);
 
