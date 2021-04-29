@@ -9,11 +9,11 @@ namespace AHGPBM
     class Handler : public HandlerElement
     {
     public:
-        void injectMessage(google::protobuf::Message *msg) override final;
-        void injectMessage(google::protobuf::Message *msg, void **result) override final;
-        HandlerElementType getElementType() const override final;
-        HandlerElement *addHandler(HandlerElement *handler, const std::string &messageName = "") override final;
-        HandlerElement *deleteHandler(HandlerElement *handler, const std::string &messageName = "") override final;
+        void injectMessage(google::protobuf::Message *msg) final;
+        void injectMessage(google::protobuf::Message *msg, void **result) final;
+        HandlerElementType getElementType() const final;
+        HandlerElement *addHandler(HandlerElement *handler, const std::string &messageName = "") final;
+        HandlerElement *deleteHandler(HandlerElement *handler, const std::string &messageName = "") final;
         virtual void *run(google::protobuf::Message *msg) = 0;
     };
 
