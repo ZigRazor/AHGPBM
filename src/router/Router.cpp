@@ -45,7 +45,16 @@ namespace AHGPBM
     {
         if (messageName != "")
         {
-            routingMap[messageName].push_back(handler);
+            if (handler->getElementType() == HandlerElementType::ROUTER ||
+                handler->getElementType() == HandlerElementType::DISPATCHER)
+            {
+                routingMap[messageName].push_back(handler);
+            }
+            else
+            {
+                //Not allowed element type
+                return nullptr;
+            }
         }
         else
         {
@@ -62,12 +71,12 @@ namespace AHGPBM
             if (routingMap.find(messageName) != routingMap.end())
             {
                 std::list<HandlerElement *> &handlerList = routingMap.at(messageName);
-                std::list<HandlerElement *>::const_iterator handlerListIt;                
+                std::list<HandlerElement *>::const_iterator handlerListIt;
                 for (handlerListIt = handlerList.begin(); handlerListIt != handlerList.end(); ++handlerListIt)
                 {
                     if (*handlerListIt == handler)
                     {
-                        handlerList.erase(handlerListIt);                        
+                        handlerList.erase(handlerListIt);
                         return handler;
                     }
                 }

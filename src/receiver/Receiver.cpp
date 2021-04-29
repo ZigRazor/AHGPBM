@@ -39,7 +39,16 @@ namespace AHGPBM
 
     HandlerElement *Receiver::addHandler(HandlerElement *handler, const std::string &messageName)
     {
-        handlerList.push_back(handler);
+        if (handler->getElementType() == HandlerElementType::ROUTER ||
+            handler->getElementType() == HandlerElementType::DISPATCHER)
+        {
+            handlerList.push_back(handler);
+        }
+        else
+        {
+            //Not allowed Element Type
+            return nullptr;
+        }
         return handler;
     }
 
@@ -50,7 +59,7 @@ namespace AHGPBM
         {
             if (*it == handler)
             {
-                handlerList.erase(it);                
+                handlerList.erase(it);
                 return handler;
             }
         }
