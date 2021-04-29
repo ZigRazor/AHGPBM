@@ -1,28 +1,22 @@
-#ifndef __DISPATCHER_H__
-#define __DISPATCHER_H__
+#ifndef __HANDLER_H__
+#define __HANDLER_H__
 
+#include "google/protobuf/message.h"
 #include "base/HandlerElement.h"
-#include <map>
-#include <list>
 
 namespace AHGPBM
 {
-    class Dispatcher : public HandlerElement
+    class Handler : public HandlerElement
     {
     public:
-        Dispatcher();
-        ~Dispatcher();
         void injectMessage(google::protobuf::Message *msg) override final;
         void injectMessage(google::protobuf::Message *msg, void **result) override final;
+        HandlerElementType getElementType() const override final;
         HandlerElement *addHandler(HandlerElement *handler, const std::string &messageName = "") override final;
         HandlerElement *deleteHandler(HandlerElement *handler, const std::string &messageName = "") override final;
-        void deleteHandlerMessage(std::string messageName);
-        HandlerElementType getElementType() const override final;
-
-    private:
-        std::map<std::string, std::list<HandlerElement *>> handlerMap;
+        virtual void *run(google::protobuf::Message *msg) = 0;
     };
 
 }
 
-#endif // __DISPATCHER_H__
+#endif // __HANDLER_H__

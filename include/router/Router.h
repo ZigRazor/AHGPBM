@@ -13,11 +13,13 @@ namespace AHGPBM
     public:
         Router();
         ~Router();
-        void injectMessage(google::protobuf::Message *msg);
-        void injectMessage(google::protobuf::Message *msg, void **result);
-        void addRoutingElement(std::string messageName, HandlerElement *routingElement);
-        void deleteRoutingElement(std::string messageName, HandlerElement *routingElement);
+        void injectMessage(google::protobuf::Message *msg) override final;
+        void injectMessage(google::protobuf::Message *msg, void **result) override final;
+        HandlerElement *addHandler(HandlerElement *handler, const std::string &messageName = "") override final;
+        HandlerElement *deleteHandler(HandlerElement *handler, const std::string &messageName = "") override final;
         void deleteRoutingMessage(std::string messageName);
+
+        HandlerElementType getElementType() const override final;
 
     private:
         std::map<std::string, std::list<HandlerElement *>> routingMap;

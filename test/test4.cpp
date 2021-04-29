@@ -1,11 +1,10 @@
 #include "gtest/gtest.h"
 #include "receiver/Receiver.h"
 #include "dispatcher/Dispatcher.h"
-#include "base/Handler.h"
+#include "handler/Handler.h"
 #include "router/Router.h"
 #include "proto/example.pb.h"
 #include <iostream>
-
 
 class handler1 : public AHGPBM::Handler
 {
@@ -29,7 +28,6 @@ private:
     int result;
 };
 
-
 class handler2 : public AHGPBM::Handler
 {
 public:
@@ -52,7 +50,6 @@ private:
     int result;
 };
 
-
 TEST(AHGPBM, test_recv_route_disp_mult_hand_1)
 {
     AHGPBM::Receiver receiver;
@@ -63,18 +60,17 @@ TEST(AHGPBM, test_recv_route_disp_mult_hand_1)
 
     SearchRequest1 msg;
 
-    dispatcher1.addHandler(msg.GetDescriptor()->name(), &hand1);
-    dispatcher1.addHandler(msg.GetDescriptor()->name(), &hand2);
-    router.addRoutingElement(msg.GetDescriptor()->name(), &dispatcher1);
+    dispatcher1.addHandler(&hand1, msg.GetDescriptor()->name());
+    dispatcher1.addHandler(&hand2, msg.GetDescriptor()->name());
+    router.addHandler(&dispatcher1, msg.GetDescriptor()->name());
     receiver.addHandler(&router);
-    
-    receiver.receiveMessage(&msg);
+
+    receiver.injectMessage(&msg);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
-    
+
     ASSERT_EQ(result1, 1);
     ASSERT_EQ(result2, 2);
-    
 }
 
 TEST(AHGPBM, test_recv_route_disp_mult_hand_2)
@@ -87,14 +83,14 @@ TEST(AHGPBM, test_recv_route_disp_mult_hand_2)
 
     SearchRequest1 msg;
 
-    dispatcher1.addHandler(msg.GetDescriptor()->name(), &hand1);
-    router.addRoutingElement(msg.GetDescriptor()->name(), &dispatcher1);
+    dispatcher1.addHandler(&hand1, msg.GetDescriptor()->name());
+    router.addHandler(&dispatcher1, msg.GetDescriptor()->name());
     receiver.addHandler(&router);
-    
-    receiver.receiveMessage(&msg);
+
+    receiver.injectMessage(&msg);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
-    
+
     ASSERT_EQ(result1, 1);
     ASSERT_EQ(result2, 0);
 }
@@ -109,15 +105,15 @@ TEST(AHGPBM, test_recv_route_disp_mult_hand_3)
 
     SearchRequest1 msg;
 
-    dispatcher1.addHandler(msg.GetDescriptor()->name(), &hand2);
-    
-    router.addRoutingElement(msg.GetDescriptor()->name(), &dispatcher1);
+    dispatcher1.addHandler(&hand2, msg.GetDescriptor()->name());
+
+    router.addHandler(&dispatcher1, msg.GetDescriptor()->name());
     receiver.addHandler(&router);
-    
-    receiver.receiveMessage(&msg);
+
+    receiver.injectMessage(&msg);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
-    
+
     ASSERT_EQ(result1, 0);
     ASSERT_EQ(result2, 2);
 }
@@ -132,15 +128,14 @@ TEST(AHGPBM, test_recv_route_disp_mult_hand_4)
 
     SearchRequest1 msg;
 
-    dispatcher1.addHandler(msg.GetDescriptor()->name(), &hand1);
-    dispatcher1.addHandler(msg.GetDescriptor()->name(), &hand2);
-    router.addRoutingElement(msg.GetDescriptor()->name(), &dispatcher1);
-    
-    
-    receiver.receiveMessage(&msg);
+    dispatcher1.addHandler(&hand1, msg.GetDescriptor()->name());
+    dispatcher1.addHandler(&hand2, msg.GetDescriptor()->name());
+    router.addHandler(&dispatcher1, msg.GetDescriptor()->name());
+
+    receiver.injectMessage(&msg);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
-    
+
     ASSERT_EQ(result1, 0);
     ASSERT_EQ(result2, 0);
 }
@@ -155,18 +150,17 @@ TEST(AHGPBM, test_recv_route_disp_mult_hand_5)
 
     SearchRequest1 msg;
 
-    dispatcher1.addHandler(msg.GetDescriptor()->name(), &hand1);
-    dispatcher1.addHandler(msg.GetDescriptor()->name(), &hand2);
-    
+    dispatcher1.addHandler(&hand1, msg.GetDescriptor()->name());
+    dispatcher1.addHandler(&hand2, msg.GetDescriptor()->name());
+
     receiver.addHandler(&router);
-    
-    receiver.receiveMessage(&msg);
+
+    receiver.injectMessage(&msg);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
-    
+
     ASSERT_EQ(result1, 0);
     ASSERT_EQ(result2, 0);
-    
 }
 
 TEST(AHGPBM, test_recv_route_disp_mult_hand_6)
@@ -179,15 +173,13 @@ TEST(AHGPBM, test_recv_route_disp_mult_hand_6)
 
     SearchRequest1 msg;
 
-
-    router.addRoutingElement(msg.GetDescriptor()->name(), &dispatcher1);
+    router.addHandler(&dispatcher1, msg.GetDescriptor()->name());
     receiver.addHandler(&router);
-    
-    receiver.receiveMessage(&msg);
+
+    receiver.injectMessage(&msg);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
-    
+
     ASSERT_EQ(result1, 0);
     ASSERT_EQ(result2, 0);
-    
 }

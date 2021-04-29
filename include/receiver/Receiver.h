@@ -7,16 +7,18 @@
 
 namespace AHGPBM
 {
-    class Receiver
+    class Receiver : public HandlerElement
     {
     public:
         Receiver();
         ~Receiver();
-        void receiveMessage(google::protobuf::Message *msg);
-        void receiveMessage(google::protobuf::Message *msg, void **result);
+        void injectMessage(google::protobuf::Message *msg) override final;
+        void injectMessage(google::protobuf::Message *msg, void **result) override final;
 
-        void addHandler(HandlerElement *handler);
-        void deleteHandler(HandlerElement *handler);
+        HandlerElement *addHandler(HandlerElement *handler, const std::string &messageName = "") override final;
+        HandlerElement *deleteHandler(HandlerElement *handler, const std::string &messageName = "") override final;
+
+        HandlerElementType getElementType() const override final;
 
     private:
         std::list<HandlerElement *> handlerList;

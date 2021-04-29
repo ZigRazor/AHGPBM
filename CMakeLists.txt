@@ -8,6 +8,7 @@ set(SOURCE
     src/receiver/Receiver.cpp 
     src/router/Router.cpp
     src/dispatcher/Dispatcher.cpp
+    src/handler/Handler.cpp
     )
 
 find_package(Protobuf REQUIRED)

@@ -11,7 +11,7 @@ namespace AHGPBM
     {
     }
 
-    void Receiver::receiveMessage(google::protobuf::Message *msg)
+    void Receiver::injectMessage(google::protobuf::Message *msg)
     {
         std::list<HandlerElement *>::const_iterator it;
         for (it = handlerList.begin(); it != handlerList.end(); ++it)
@@ -20,7 +20,7 @@ namespace AHGPBM
         }
     }
 
-    void Receiver::receiveMessage(google::protobuf::Message *msg, void **result)
+    void Receiver::injectMessage(google::protobuf::Message *msg, void **result)
     {
         std::list<HandlerElement *>::const_iterator it;
         if (!handlerList.empty())
@@ -37,12 +37,13 @@ namespace AHGPBM
         }
     }
 
-    void Receiver::addHandler(HandlerElement *handler)
+    HandlerElement *Receiver::addHandler(HandlerElement *handler, const std::string &messageName)
     {
         handlerList.push_back(handler);
+        return handler;
     }
 
-    void Receiver::deleteHandler(HandlerElement *handler)
+    HandlerElement *Receiver::deleteHandler(HandlerElement *handler, const std::string &messageName)
     {
         std::list<HandlerElement *>::const_iterator it;
         bool erased = false;
@@ -52,7 +53,15 @@ namespace AHGPBM
             {
                 handlerList.erase(it);
                 erased = true;
+                return handler;
             }
         }
+        //Not found handler
+        return nullptr;
+    }
+
+    HandlerElementType Receiver::getElementType() const
+    {
+        return HandlerElementType::RECEIVER;
     }
 }

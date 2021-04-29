@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "receiver/Receiver.h"
 #include "dispatcher/Dispatcher.h"
-#include "base/Handler.h"
+#include "handler/Handler.h"
 #include "router/Router.h"
 #include "proto/example.pb.h"
 #include <iostream>
@@ -28,7 +28,6 @@ private:
     int result;
 };
 
-
 TEST(AHGPBM, test_recv_route_disp_1)
 {
     AHGPBM::Receiver receiver;
@@ -38,15 +37,18 @@ TEST(AHGPBM, test_recv_route_disp_1)
 
     SearchRequest1 msg;
 
-    dispatcher.addHandler(msg.GetDescriptor()->name(), &hand);
-    router.addRoutingElement(msg.GetDescriptor()->name(), &dispatcher);
+    dispatcher.addHandler(&hand, msg.GetDescriptor()->name());
+    router.addHandler(&dispatcher, msg.GetDescriptor()->name());
     receiver.addHandler(&router);
     int *result;
-    receiver.receiveMessage(&msg, (void **)&result);
+    receiver.injectMessage(&msg, (void **)&result);
 
-    if(result){
-    ASSERT_EQ(*result, 1);
-    }else{
+    if (result)
+    {
+        ASSERT_EQ(*result, 1);
+    }
+    else
+    {
         //force error
         ASSERT_EQ(0, 1);
     }
@@ -61,12 +63,11 @@ TEST(AHGPBM, test_recv_route_disp_2)
 
     SearchRequest1 msg;
 
-    dispatcher.addHandler(msg.GetDescriptor()->name(), &hand);    
+    dispatcher.addHandler(&hand, msg.GetDescriptor()->name());
     receiver.addHandler(&router);
     int *result;
-    receiver.receiveMessage(&msg, (void **)&result);
+    receiver.injectMessage(&msg, (void **)&result);
 
-    
     ASSERT_EQ(result, nullptr);
 }
 
@@ -78,13 +79,12 @@ TEST(AHGPBM, test_recv_route_disp_3)
     handler1 hand;
 
     SearchRequest1 msg;
-    
-    router.addRoutingElement(msg.GetDescriptor()->name(), &dispatcher); 
+
+    router.addHandler(&dispatcher, msg.GetDescriptor()->name());
     receiver.addHandler(&router);
     int *result;
-    receiver.receiveMessage(&msg, (void **)&result);
+    receiver.injectMessage(&msg, (void **)&result);
 
-    
     ASSERT_EQ(result, nullptr);
 }
 
@@ -97,12 +97,11 @@ TEST(AHGPBM, test_recv_route_disp_4)
 
     SearchRequest1 msg;
 
-    dispatcher.addHandler(msg.GetDescriptor()->name(), &hand);    
-    router.addRoutingElement(msg.GetDescriptor()->name(), &dispatcher); 
-    
-    int *result;
-    receiver.receiveMessage(&msg, (void **)&result);
+    dispatcher.addHandler(&hand, msg.GetDescriptor()->name());
+    router.addHandler(&dispatcher, msg.GetDescriptor()->name());
 
-    
+    int *result;
+    receiver.injectMessage(&msg, (void **)&result);
+
     ASSERT_EQ(result, nullptr);
 }

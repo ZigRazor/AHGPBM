@@ -2,7 +2,7 @@
 #include "gtest/gtest.h"
 #include "receiver/Receiver.h"
 #include "dispatcher/Dispatcher.h"
-#include "base/Handler.h"
+#include "handler/Handler.h"
 #include "proto/example.pb.h"
 #include <iostream>
 
@@ -36,14 +36,17 @@ TEST(AHGPBM, test_recv_disp_1)
 
     SearchRequest1 msg;
 
-    dispatcher.addHandler(msg.GetDescriptor()->name(), &hand);
+    dispatcher.addHandler(&hand, msg.GetDescriptor()->name());
     receiver.addHandler(&dispatcher);
     int *result;
-    receiver.receiveMessage(&msg, (void **)&result);
+    receiver.injectMessage(&msg, (void **)&result);
 
-    if(result){
-    ASSERT_EQ(*result, 1);
-    }else{
+    if (result)
+    {
+        ASSERT_EQ(*result, 1);
+    }
+    else
+    {
         //force error
         ASSERT_EQ(0, 1);
     }
@@ -53,14 +56,13 @@ TEST(AHGPBM, test_recv_disp_2)
 {
     AHGPBM::Receiver receiver;
     AHGPBM::Dispatcher dispatcher;
-    
+
     SearchRequest1 msg;
-    
+
     receiver.addHandler(&dispatcher);
     int *result;
-    receiver.receiveMessage(&msg, (void **)&result);
+    receiver.injectMessage(&msg, (void **)&result);
 
-    
     ASSERT_EQ(result, nullptr);
 }
 
@@ -71,8 +73,7 @@ TEST(AHGPBM, test_recv_disp_3)
     SearchRequest1 msg;
 
     int *result;
-    receiver.receiveMessage(&msg, (void **)&result);
+    receiver.injectMessage(&msg, (void **)&result);
 
-    
     ASSERT_EQ(result, nullptr);
 }

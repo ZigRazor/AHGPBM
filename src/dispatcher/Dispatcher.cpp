@@ -1,5 +1,4 @@
 #include "dispatcher/Dispatcher.h"
-#include <future>
 
 namespace AHGPBM
 {
@@ -16,25 +15,25 @@ namespace AHGPBM
     {
         if (handlerMap.find(msg->GetDescriptor()->name()) != handlerMap.end())
         {
-            std::list<Handler *> &handlerList = handlerMap.at(msg->GetDescriptor()->name());
-            std::list<Handler *>::const_iterator it;
+            std::list<HandlerElement *> &handlerList = handlerMap.at(msg->GetDescriptor()->name());
+            std::list<HandlerElement *>::const_iterator it;
             for (it = handlerList.begin(); it != handlerList.end(); ++it)
             {
-                auto asynch = std::async(std::launch::async, &Handler::run, &(*(*it)), msg);
+                (*it)->injectMessage(msg);
             }
         }
     }
 
     void Dispatcher::injectMessage(google::protobuf::Message *msg, void **result)
     {
+
         if (handlerMap.find(msg->GetDescriptor()->name()) != handlerMap.end())
         {
-            std::list<Handler *> &handlerList = handlerMap.at(msg->GetDescriptor()->name());
-            std::list<Handler *>::const_iterator it;
+            std::list<HandlerElement *> &handlerList = handlerMap.at(msg->GetDescriptor()->name());
+            std::list<HandlerElement *>::const_iterator it;
             for (it = handlerList.begin(); it != handlerList.end(); ++it)
             {
-                auto asynch = std::async(std::launch::async, &Handler::run, &(*(*it)), msg);
-                *result = asynch.get();
+                (*it)->injectMessage(msg, result);
             }
         }
         else
@@ -43,27 +42,56 @@ namespace AHGPBM
         }
     }
 
-    void Dispatcher::addHandler(std::string messageName, Handler *handler)
+    HandlerElement *Dispatcher::addHandler(HandlerElement *handler, const std::string &messageName)
     {
-        handlerMap[messageName].push_back(handler);
+        if (messageName != "")
+        {
+            if (handler->getElementType() == HandlerElementType::HANDLER)
+            {
+                std::cout << "Dispatcher::addHandler2" << std::endl;
+                handlerMap[messageName].push_back(handler);
+            }
+            else
+            {
+                //Not allowed to add element different from HANDLER
+                return nullptr;
+            }
+        }
+        else
+        {
+            //Not allowed call without message
+            return nullptr;
+        }
+        return handler;
     }
 
-    void Dispatcher::deleteHandler(std::string messageName, Handler *handler)
+    HandlerElement *Dispatcher::deleteHandler(HandlerElement *handler, const std::string &messageName)
     {
-        if (handlerMap.find(messageName) != handlerMap.end())
+        if (messageName != "")
         {
-            std::list<Handler *> &handlerList = handlerMap.at(messageName);
-            std::list<Handler *>::const_iterator handlerListIt;
-            bool erased = false;
-            for (handlerListIt = handlerList.begin(); !erased && handlerListIt != handlerList.end(); ++handlerListIt)
+            if (handlerMap.find(messageName) != handlerMap.end())
             {
-                if (*handlerListIt == handler)
+                std::list<HandlerElement *> &handlerList = handlerMap.at(messageName);
+                std::list<HandlerElement *>::const_iterator handlerListIt;
+                bool erased = false;
+                for (handlerListIt = handlerList.begin(); !erased && handlerListIt != handlerList.end(); ++handlerListIt)
                 {
-                    handlerList.erase(handlerListIt);
-                    erased = true;
+                    if (*handlerListIt == handler)
+                    {
+                        handlerList.erase(handlerListIt);
+                        erased = true;
+                        return handler;
+                    }
                 }
             }
         }
+        else
+        {
+            //Not allowed call without message
+            return nullptr;
+        }
+        //Not found handler
+        return nullptr;
     }
 
     void Dispatcher::deleteHandlerMessage(std::string messageName)
@@ -71,4 +99,8 @@ namespace AHGPBM
         handlerMap.erase(handlerMap.find(messageName));
     }
 
+    HandlerElementType Dispatcher::getElementType() const
+    {
+        return HandlerElementType::DISPATCHER;
+    }
 }

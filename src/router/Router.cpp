@@ -41,32 +41,57 @@ namespace AHGPBM
         }
     }
 
-    void Router::addRoutingElement(std::string messageName, HandlerElement *routingElement)
+    HandlerElement *Router::addHandler(HandlerElement *handler, const std::string &messageName)
     {
-        routingMap[messageName].push_back(routingElement);
+        if (messageName != "")
+        {
+            routingMap[messageName].push_back(handler);
+        }
+        else
+        {
+            //Not allowed call without messageName
+            return nullptr;
+        }
+        return handler;
     }
 
-    void Router::deleteRoutingElement(std::string messageName, HandlerElement *routingElement)
+    HandlerElement *Router::deleteHandler(HandlerElement *handler, const std::string &messageName)
     {
-        if (routingMap.find(messageName) != routingMap.end())
+        if (messageName != "")
         {
-            std::list<HandlerElement *> &handlerList = routingMap.at(messageName);
-            std::list<HandlerElement *>::const_iterator handlerListIt;
-            bool erased = false;
-            for (handlerListIt = handlerList.begin(); !erased && handlerListIt != handlerList.end(); ++handlerListIt)
+            if (routingMap.find(messageName) != routingMap.end())
             {
-                if (*handlerListIt == routingElement)
+                std::list<HandlerElement *> &handlerList = routingMap.at(messageName);
+                std::list<HandlerElement *>::const_iterator handlerListIt;
+                bool erased = false;
+                for (handlerListIt = handlerList.begin(); !erased && handlerListIt != handlerList.end(); ++handlerListIt)
                 {
-                    handlerList.erase(handlerListIt);
-                    erased = true;
+                    if (*handlerListIt == handler)
+                    {
+                        handlerList.erase(handlerListIt);
+                        erased = true;
+                        return handler;
+                    }
                 }
             }
         }
+        else
+        {
+            //Not allowed call without messageName
+            return nullptr;
+        }
+        //Not found handler
+        return nullptr;
     }
 
     void Router::deleteRoutingMessage(std::string messageName)
     {
         routingMap.erase(routingMap.find(messageName));
+    }
+
+    HandlerElementType Router::getElementType() const
+    {
+        return HandlerElementType::ROUTER;
     }
 
 }
