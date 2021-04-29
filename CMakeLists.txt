@@ -41,6 +41,7 @@ add_executable(ahgpbm_test
                     test/test1.cpp
                     test/test2.cpp
                     test/test3.cpp
+                    test/test4.cpp
               )
 target_include_directories(ahgpbm_test PUBLIC include)
 target_include_directories(ahgpbm_test PUBLIC messages/cpp)
