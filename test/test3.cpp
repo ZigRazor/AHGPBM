@@ -24,7 +24,7 @@ TEST(AHGPBM, test_recv_route_mult_disp_1)
     router.addHandler(&dispatcher2, msg.GetDescriptor()->name());
     receiver.addHandler(&router);
 
-    receiver.injectMessage(&msg);
+    receiver.receiveMessage(&msg);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
 
@@ -48,7 +48,7 @@ TEST(AHGPBM, test_recv_route_mult_disp_2)
     router.addHandler(&dispatcher2, msg.GetDescriptor()->name());
     receiver.addHandler(&router);
 
-    receiver.injectMessage(&msg);
+    receiver.receiveMessage(&msg);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
 
@@ -73,7 +73,7 @@ TEST(AHGPBM, test_recv_route_mult_disp_3)
     router.addHandler(&dispatcher2, msg.GetDescriptor()->name());
     receiver.addHandler(&router);
 
-    receiver.injectMessage(&msg);
+    receiver.receiveMessage(&msg);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
 
@@ -97,7 +97,7 @@ TEST(AHGPBM, test_recv_route_mult_disp_4)
     router.addHandler(&dispatcher1, msg.GetDescriptor()->name());
     router.addHandler(&dispatcher2, msg.GetDescriptor()->name());
 
-    receiver.injectMessage(&msg);
+    receiver.receiveMessage(&msg);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
 
@@ -121,7 +121,7 @@ TEST(AHGPBM, test_recv_route_mult_disp_5)
 
     receiver.addHandler(&router);
 
-    receiver.injectMessage(&msg);
+    receiver.receiveMessage(&msg);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
 
@@ -144,7 +144,7 @@ TEST(AHGPBM, test_recv_route_mult_disp_6)
     router.addHandler(&dispatcher2, msg.GetDescriptor()->name());
     receiver.addHandler(&router);
 
-    receiver.injectMessage(&msg);
+    receiver.receiveMessage(&msg);
     auto result1 = hand1.getResult();
     auto result2 = hand2.getResult();
 

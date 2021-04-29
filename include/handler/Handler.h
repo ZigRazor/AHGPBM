@@ -8,13 +8,18 @@ namespace AHGPBM
 {
     class Handler : public HandlerElement
     {
-    public:
-        void injectMessage(google::protobuf::Message *msg) final;
-        void injectMessage(google::protobuf::Message *msg, void **result) final;
+    public:        
         HandlerElementType getElementType() const final;
         HandlerElement *addHandler(HandlerElement *handler, const std::string &messageName = "") final;
         HandlerElement *deleteHandler(HandlerElement *handler, const std::string &messageName = "") final;
+    
+    protected:
         virtual void *run(google::protobuf::Message *msg) = 0;
+    
+    private:
+        void injectMessage(google::protobuf::Message *msg) final;
+        void injectMessage(google::protobuf::Message *msg, void **result) final;
+
     };
 
 }

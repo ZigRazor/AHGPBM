@@ -20,7 +20,7 @@ TEST(AHGPBM, test_recv_disp_1)
     dispatcher.addHandler(&hand, msg.GetDescriptor()->name());
     receiver.addHandler(&dispatcher);
     int *result;
-    receiver.injectMessage(&msg, (void **)&result);
+    receiver.receiveMessage(&msg, (void **)&result);
 
     if (result)
     {
@@ -42,7 +42,7 @@ TEST(AHGPBM, test_recv_disp_2)
 
     receiver.addHandler(&dispatcher);
     int *result;
-    receiver.injectMessage(&msg, (void **)&result);
+    receiver.receiveMessage(&msg, (void **)&result);
 
     ASSERT_EQ(result, nullptr);
 }
@@ -54,7 +54,7 @@ TEST(AHGPBM, test_recv_disp_3)
     SearchRequest1 msg;
 
     int *result;
-    receiver.injectMessage(&msg, (void **)&result);
+    receiver.receiveMessage(&msg, (void **)&result);
 
     ASSERT_EQ(result, nullptr);
 }

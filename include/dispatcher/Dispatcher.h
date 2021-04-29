@@ -11,9 +11,7 @@ namespace AHGPBM
     {
     public:
         Dispatcher();
-        ~Dispatcher();
-        void injectMessage(google::protobuf::Message *msg) final;
-        void injectMessage(google::protobuf::Message *msg, void **result) final;
+        ~Dispatcher();        
         HandlerElement *addHandler(HandlerElement *handler, const std::string &messageName = "") final;
         HandlerElement *deleteHandler(HandlerElement *handler, const std::string &messageName = "") final;
         void deleteHandlerMessage(std::string messageName);
@@ -21,6 +19,9 @@ namespace AHGPBM
 
     private:
         std::map<std::string, std::list<HandlerElement *>> handlerMap;
+
+        void injectMessage(google::protobuf::Message *msg) final;
+        void injectMessage(google::protobuf::Message *msg, void **result) final;
     };
 
 }

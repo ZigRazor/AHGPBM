@@ -2,13 +2,22 @@
 
 namespace AHGPBM
 {
-
     Receiver::Receiver()
     {
     }
 
     Receiver::~Receiver()
     {
+    }
+
+    void Receiver::receiveMessage(google::protobuf::Message *msg)
+    {
+        injectMessage(msg);
+    }
+
+    void Receiver::receiveMessage(google::protobuf::Message *msg, void **result)
+    {
+        injectMessage(msg, result);
     }
 
     void Receiver::injectMessage(google::protobuf::Message *msg)
