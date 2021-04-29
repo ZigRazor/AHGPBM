@@ -5,28 +5,9 @@
 #include "handler/Handler.h"
 #include "proto/example.pb.h"
 #include <iostream>
+#include "handlerImpl.h"
 
-class handler1 : public AHGPBM::Handler
-{
-public:
-    handler1() : result(0) {}
 
-    void *run(google::protobuf::Message *msg)
-    {
-        //std::cout << "Handled " << msg->GetDescriptor()->name() << std::endl;
-        result = 1;
-        int *result_to_return = new int(result);
-        return result_to_return;
-    }
-
-    int getResult()
-    {
-        return result;
-    }
-
-private:
-    int result;
-};
 
 TEST(AHGPBM, test_recv_disp_1)
 {

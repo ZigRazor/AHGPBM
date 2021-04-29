@@ -48,7 +48,6 @@ namespace AHGPBM
         {
             if (handler->getElementType() == HandlerElementType::HANDLER)
             {
-                std::cout << "Dispatcher::addHandler2" << std::endl;
                 handlerMap[messageName].push_back(handler);
             }
             else
