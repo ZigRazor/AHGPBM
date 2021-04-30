@@ -48,6 +48,20 @@ namespace AHGPBM
         {
             if (handler->getElementType() == HandlerElementType::HANDLER)
             {
+                if (handlerMap.find(messageName) != handlerMap.end())
+                {
+                    std::list<HandlerElement *> &handlerList = handlerMap.at(messageName);
+                    std::list<HandlerElement *>::const_iterator handlerListIt;
+                    for (handlerListIt = handlerList.begin(); handlerListIt != handlerList.end(); ++handlerListIt)
+                    {
+                        if (*handlerListIt == handler)
+                        {
+                            //Handler already inserted, do nothing
+                            return handler;
+                        }
+                    }
+                }
+                //Not found Message or Handler, add it
                 handlerMap[messageName].push_back(handler);
             }
             else
@@ -76,7 +90,7 @@ namespace AHGPBM
                 {
                     if (*handlerListIt == handler)
                     {
-                        handlerList.erase(handlerListIt);                        
+                        handlerList.erase(handlerListIt);
                         return handler;
                     }
                 }

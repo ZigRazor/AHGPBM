@@ -14,7 +14,13 @@ namespace AHGPBM
         HandlerElement *deleteHandler(HandlerElement *handler, const std::string &messageName = "") final;
     
     protected:
-        virtual void *run(google::protobuf::Message *msg) = 0;
+        /*
+        * This method should be implemented in thread safe mode.
+        * It can work on data and the AHGPBM does not insure the thread safety
+        * this function is called in an asynch thread so, it can be concurrent
+        * with other thread or with a new call of itself
+        */
+        virtual void *run(google::protobuf::Message *msg) = 0; 
     
     private:
         void injectMessage(google::protobuf::Message *msg) final;

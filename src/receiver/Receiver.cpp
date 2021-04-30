@@ -51,6 +51,17 @@ namespace AHGPBM
         if (handler->getElementType() == HandlerElementType::ROUTER ||
             handler->getElementType() == HandlerElementType::DISPATCHER)
         {
+            bool found = false;
+            std::list<HandlerElement *>::iterator it;
+            for (it = handlerList.begin(); it != handlerList.end(); ++it)
+            {
+                if (*it == handler)
+                {
+                    //Already in the list, do nothing
+                    return handler;
+                }
+            }
+            //Not found add to the list
             handlerList.push_back(handler);
         }
         else

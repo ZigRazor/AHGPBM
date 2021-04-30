@@ -48,6 +48,20 @@ namespace AHGPBM
             if (handler->getElementType() == HandlerElementType::ROUTER ||
                 handler->getElementType() == HandlerElementType::DISPATCHER)
             {
+                if (routingMap.find(messageName) != routingMap.end())
+                {
+                    std::list<HandlerElement *> &handlerList = routingMap.at(messageName);
+                    std::list<HandlerElement *>::const_iterator handlerListIt;
+                    for (handlerListIt = handlerList.begin(); handlerListIt != handlerList.end(); ++handlerListIt)
+                    {
+                        if (*handlerListIt == handler)
+                        {                 
+                            //Handler already inserted           
+                            return handler;
+                        }
+                    }
+                }
+                //Not Found Message or Handler add it
                 routingMap[messageName].push_back(handler);
             }
             else
