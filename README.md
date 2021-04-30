@@ -97,6 +97,10 @@ In order to run the test just enter the `build` directory and execute `./ahgpbm_
 
 Work in progress...
 
+## Example
+
+Work in progress...
+
 ## Contributing
 
 For detailed information on how to contribute, see <a href="https://github.com/ZigRazor/AHGPBM/blob/main/CONTRIBUTING.md">`CONTRIBUTING`</a>.
